@@ -299,6 +299,9 @@ export default class VideoPlayer extends Component {
   }
 
   onSeekRelease() {
+    if (this.props.onEndSeek) {
+      this.props.onEndSeek();
+    }
     this.setState({
       isSeeking: false,
       isPlaying: this.wasPlayingBeforeSeek,
@@ -307,6 +310,9 @@ export default class VideoPlayer extends Component {
   }
 
   onSeek(e) {
+    if (this.props.onBeginSeek) {
+      this.props.onBeginSeek();
+    }
     const diff = e.nativeEvent.pageX - this.seekTouchStart;
     const ratio = 100 / this.seekBarWidth;
     const progress = this.seekProgressStart + ((ratio * diff) / 100);
@@ -642,7 +648,9 @@ VideoPlayer.propTypes = {
   onHideControls: PropTypes.func,
   onShowControls: PropTypes.func,
   onMutePress: PropTypes.func,
-  showDuration: PropTypes.bool
+  showDuration: PropTypes.bool,
+  onBeginSeek: PropTypes.func,
+  onEndSeek: PropTypes.func,
 };
 
 VideoPlayer.defaultProps = {
